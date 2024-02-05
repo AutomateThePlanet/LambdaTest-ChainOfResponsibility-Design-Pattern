@@ -1,4 +1,4 @@
-﻿namespace DecoratorDesignPatternTests.Models;
+﻿namespace ChainOfResponsibility.Models;
 public enum AccountOption
 {
     Login,

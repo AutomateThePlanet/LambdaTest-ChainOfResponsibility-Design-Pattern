@@ -1,4 +1,4 @@
-﻿namespace DecoratorDesignPatternTests;
+﻿namespace ChainOfResponsibility;
 public class Urls
 {
     public const string BASE_URL = "https://ecommerce-playground.lambdatest.io/";
