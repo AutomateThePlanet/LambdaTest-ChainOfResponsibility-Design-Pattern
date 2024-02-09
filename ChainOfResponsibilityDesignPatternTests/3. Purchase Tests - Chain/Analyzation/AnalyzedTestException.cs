@@ -17,7 +17,13 @@ public class AnalyzedTestException : Exception
     {
     }
 
-    private static string FormatExceptionMessage(string exceptionMessage) => $"{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}{Environment.NewLine}{exceptionMessage}{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}";
+    private static string FormatExceptionMessage(string exceptionMessage)
+    {
+        return $"{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}{Environment.NewLine}{exceptionMessage}{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}";
+    }
 
-    private static string FormatExceptionMessage(string exceptionMessage, string url) => $"{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}{Environment.NewLine}{exceptionMessage}{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine} URL: {url}";
+    private static string FormatExceptionMessage(string exceptionMessage, string url)
+    {
+        return $"{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine}{Environment.NewLine}{exceptionMessage}{Environment.NewLine}{Environment.NewLine}{new string('#', 40)}{Environment.NewLine} URL: {url}";
+    }
 }

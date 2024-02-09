@@ -3,9 +3,9 @@ using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public class JavaScriptErrorsHandler : IExceptionAnalysationHandler
+public class JavaScriptErrorsHandler : ExceptionAnalysationHandler
 {
-    public string DetailedIssueExplanation
+    public override string DetailedIssueExplanation
     {
         get
         {
@@ -13,7 +13,7 @@ public class JavaScriptErrorsHandler : IExceptionAnalysationHandler
         }
     }
 
-    public bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
+    public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
         if (driver == null)
         {

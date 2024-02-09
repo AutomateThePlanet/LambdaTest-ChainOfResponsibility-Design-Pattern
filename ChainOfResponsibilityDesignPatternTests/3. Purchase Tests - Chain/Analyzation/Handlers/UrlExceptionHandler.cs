@@ -4,13 +4,11 @@ using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public abstract class UrlExceptionHandler : IExceptionAnalysationHandler
+public abstract class UrlExceptionHandler : ExceptionAnalysationHandler
 {
-    public abstract string DetailedIssueExplanation { get; }
-
     protected abstract string TextToSearchInUrl { get; }
 
-    public bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
+    public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
         if (driver == null)
         {

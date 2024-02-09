@@ -3,9 +3,9 @@ using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public class NoFailedRequestsHandler : IExceptionAnalysationHandler
+public class NoFailedRequestsHandler : ExceptionAnalysationHandler
 {
-    public string DetailedIssueExplanation
+    public override string DetailedIssueExplanation
     {
         get
         {
@@ -13,7 +13,7 @@ public class NoFailedRequestsHandler : IExceptionAnalysationHandler
         }
     }
 
-    public bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
+    public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
         if (driver == null)
         {

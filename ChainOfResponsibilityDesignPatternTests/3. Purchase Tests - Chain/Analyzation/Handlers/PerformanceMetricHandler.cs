@@ -3,7 +3,7 @@ using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public class PerformanceMetricHandler : IExceptionAnalysationHandler
+public class PerformanceMetricHandler : ExceptionAnalysationHandler
 {
     private string _metricName;
     private double _threshold;
@@ -14,7 +14,7 @@ public class PerformanceMetricHandler : IExceptionAnalysationHandler
         this._threshold = threshold;
     }
 
-    public string DetailedIssueExplanation
+    public override string DetailedIssueExplanation
     {
         get
         {
@@ -58,7 +58,7 @@ public class PerformanceMetricHandler : IExceptionAnalysationHandler
     //FirstMeaningfulPaint = 0
     //DomContentLoaded = 18072.116968
     //NavigationStart = 18069.00376
-    public bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
+    public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
         if (driver == null)
         {

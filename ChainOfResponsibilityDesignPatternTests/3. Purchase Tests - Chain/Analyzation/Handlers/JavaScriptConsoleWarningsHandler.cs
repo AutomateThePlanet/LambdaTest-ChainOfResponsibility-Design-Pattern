@@ -3,13 +3,11 @@ using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public abstract class JavaScriptConsoleWarningsHandler : IExceptionAnalysationHandler
+public abstract class JavaScriptConsoleWarningsHandler : ExceptionAnalysationHandler
 {
-    public abstract string DetailedIssueExplanation { get; }
-
     protected abstract string TextToSearchInSource { get; }
 
-    public bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
+    public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
         if (driver == null)
         {

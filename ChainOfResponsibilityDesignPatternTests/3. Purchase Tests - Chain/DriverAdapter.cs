@@ -23,7 +23,7 @@ public class DriverAdapter : IDriver
     private IJavaScriptEngine _monitor;
     private DevToolsSession _devToolsSession;
     private INetwork _networkInterceptor;
-    private ExceptionAnalyser _exceptionAnalyser;
+    private IExceptionAnalysationHandler _primaryExceptionHandler;
 
     public DriverAdapter()
     {
@@ -113,10 +113,8 @@ public class DriverAdapter : IDriver
         _networkInterceptor.AddResponseHandler(responsesHandler);
         await _networkInterceptor.StartMonitoring();
 
-     
-
         var firingDriver = new EventFiringWebDriver(_webDriver);
-        firingDriver.ExceptionThrown += (o, e) => _exceptionAnalyser.Analyse(this, e.ThrownException);
+        firingDriver.ExceptionThrown += (o, e) => _primaryExceptionHandler.Analyse(this, e.ThrownException);
     }
 
     public async Task<List<Metric>> CaptureMetricsAsync()
@@ -214,15 +212,23 @@ public class DriverAdapter : IDriver
 
     private void InitializeExceptionAnalysisHandlers()
     {
-        _exceptionAnalyser = new ExceptionAnalyser();
+        _primaryExceptionHandler = new ConsoleWarningHandler();
+        var heapPerformanceMetricHandler = new HeapPerformanceMetricHandler();
+        _primaryExceptionHandler.AddExceptionAnalysationHandler(heapPerformanceMetricHandler);
 
-        // we make it singleton or static and move it somewhere else
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new ConsoleWarningHandler());
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new HeapPerformanceMetricHandler());
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new CustomHtmlExceptionHandler("404 error", "there was 404"));
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new FileNotFoundExceptionHandler());
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new JavaScriptErrorsHandler());
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new NoFailedRequestsHandler());
-        _exceptionAnalyser.AddExceptionAnalysationHandler(new ServiceUnavailableExceptionHandler());
+        var customHtmlExceptionHandler = new CustomHtmlExceptionHandler("404 error", "there was 404");
+        heapPerformanceMetricHandler.AddExceptionAnalysationHandler(customHtmlExceptionHandler);
+
+        var fileNotFoundExceptionHandler = new FileNotFoundExceptionHandler();
+        customHtmlExceptionHandler.AddExceptionAnalysationHandler(fileNotFoundExceptionHandler);
+
+        var javaScriptErrorsHandler = new JavaScriptErrorsHandler();
+        fileNotFoundExceptionHandler.AddExceptionAnalysationHandler(javaScriptErrorsHandler);
+
+        var noFailedRequestsHandler = new NoFailedRequestsHandler();
+        javaScriptErrorsHandler.AddExceptionAnalysationHandler(noFailedRequestsHandler);
+
+        var serviceUnavailableExceptionHandler = new ServiceUnavailableExceptionHandler();
+        noFailedRequestsHandler.AddExceptionAnalysationHandler(serviceUnavailableExceptionHandler);
     }
 }
