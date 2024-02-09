@@ -157,12 +157,6 @@ public class DriverAdapter : IDriver
             elements.Add(element);
         }
 
-        //if (elements.Any())
-        //{
-        //    ScrollIntoView(elements.Last());
-        //    HighlightElement(elements.Last());
-        //}
-
         return elements;
     }
 
@@ -216,14 +210,11 @@ public class DriverAdapter : IDriver
         var heapPerformanceMetricHandler = new HeapPerformanceMetricHandler();
         _primaryExceptionHandler.AddExceptionAnalysationHandler(heapPerformanceMetricHandler);
 
-        var customHtmlExceptionHandler = new CustomHtmlExceptionHandler("404 error", "there was 404");
+        var customHtmlExceptionHandler = new HtmlSourceExceptionHandler("404 - File or directory not found.", "IT IS NOT A TEST PROBLEM. THE PAGE DOES NOT EXIST.");
         heapPerformanceMetricHandler.AddExceptionAnalysationHandler(customHtmlExceptionHandler);
 
-        var fileNotFoundExceptionHandler = new FileNotFoundExceptionHandler();
-        customHtmlExceptionHandler.AddExceptionAnalysationHandler(fileNotFoundExceptionHandler);
-
         var javaScriptErrorsHandler = new JavaScriptErrorsHandler();
-        fileNotFoundExceptionHandler.AddExceptionAnalysationHandler(javaScriptErrorsHandler);
+        customHtmlExceptionHandler.AddExceptionAnalysationHandler(javaScriptErrorsHandler);
 
         var noFailedRequestsHandler = new NoFailedRequestsHandler();
         javaScriptErrorsHandler.AddExceptionAnalysationHandler(noFailedRequestsHandler);

@@ -1,12 +1,17 @@
-﻿using System;
-using ChainOfResponsibility.ExceptionAnalysation.Contracts;
-using ChainOfResponsibility.FourthVersion;
+﻿using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
-public abstract class HtmlSourceExceptionHandler : ExceptionAnalysationHandler
+public class HtmlSourceExceptionHandler : ExceptionAnalysationHandler
 {
-    protected abstract string TextToSearchInSource { get; }
+    private readonly string _textToSearchInSource;
+    public HtmlSourceExceptionHandler(string textToSearchInSource, string detailedIssueExplanation)
+    {
+        _textToSearchInSource = textToSearchInSource;
+        DetailedIssueExplanation = detailedIssueExplanation;
+    }
+
+    public override string DetailedIssueExplanation { get; }
 
     public override bool IsApplicable(IDriver driver, Exception ex = null, params object[] context)
     {
@@ -15,7 +20,7 @@ public abstract class HtmlSourceExceptionHandler : ExceptionAnalysationHandler
             throw new ArgumentNullException(nameof(driver));
         }
 
-        var result = driver.HtmlSource.Contains(TextToSearchInSource);
+        var result = driver.HtmlSource.Contains(_textToSearchInSource);
         return result;
     }
 }

@@ -1,5 +1,4 @@
-﻿using ChainOfResponsibility.ExceptionAnalysation.Contracts;
-using ChainOfResponsibility.FourthVersion;
+﻿using ChainOfResponsibility.FourthVersion;
 
 namespace ChainOfResponsibility.ExceptionAnalysation;
 
